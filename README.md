@@ -1,5 +1,7 @@
 # kubernetes_reference_documentation
 
+**Warning**: Do not use ChatGPT or a similar AI tool to rewrite the assignment for you. The interview process is designed to flag the usage of AI.
+
 ## Task
 Create a personal repository containing all your changes in a new branch. You may clone this repository if you would like, but please don't fork and submit a pull request (PR) to this repository. If you need guidance in cloning a repository, check out the [Clone a Repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide from GitHub. The file [assignment.md](assignment.md), located in the technical-writer folder, contains text that is intended to go to a documentation reference page. Your task is to improve the text and help improve the reading experience.
 
