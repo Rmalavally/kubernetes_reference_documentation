@@ -1,13 +1,14 @@
 # Overview 
-Kubernetes provides `kubectl` commands that can you help you inspect pods, review logs, and debug active containers when a workload does not perform as expected.  `kubectl' is the main command line interface (CLI) tool for running commands and managing Kubernetes clusters using the Kubernetes API server. These commands help with deploying an application, troubleshooting a problem, and generating health reports of a container. 
+Kubernetes (K8s) provides `kubectl`, a main command line interface (CLI) tool for running commands and managing Kubernetes clusters using the Kubernetes API server. These commands help with deploying an application, troubleshooting a problem, and checking the status of a container. 
+This document is a quick reference guide for the following `kubectl` commands used in troubleshooting Kubernetes containers. 
 
-## Recommended Workflow
-This document is a quick reference guide for the following commonly-used `kubectl` commands for troubleshooting Kubernetes containers. You may use these commands in the following order when debugging workloads. 
+> [!NOTE]
+> It is recommended you use these commands in the following order when debugging workloads. 
 
-* `kubectl get pods`: To view pod status.
-* `kubectl logs`: To retreive and review logs for a container in a pod.
-* `kubectl exec`: To execute a command in a container for more details.
-* `kubectl debug`: To clone a pod with the same environment without changing the original container.
+* `kubectl get pods`: View pod status.
+* `kubectl logs`: Retrieve and review logs for a container in a pod.
+* `kubectl exec`: Execute a command to open an interactive session inside the container.
+* `kubectl debug`: Clone a pod with the same environment without changing the original container and use advanced debug options when a container is in a CrashLoopBackOff state. 
  
 ## Assumptions
 * If you are new to Kubernetes, it is highly recommended that you learn about basic kubectl commands and the relationships between concepts before you proceed with troubleshooting an active container.
@@ -26,10 +27,10 @@ Before you dive into the commands, it is important to understand the three found
 * **Namespace**: An abstraction used by Kubernetes to support isolation of groups of API resources within a single cluster.
 * **Node**: A node is a physical or a virtual machine in a cluster that runs workloads.
 
-For more detailed list of Kubernetes terms and definitions, refer to the [Kubernetes Glossary](https://kubernetes.io/docs/reference/glossary/?fundamental=true)
+For a detailed list of Kubernetes terms and definitions, refer to the [Kubernetes Glossary](https://kubernetes.io/docs/reference/glossary/?fundamental=true)
 
 ### View Pod Status
-Use the `kubectl get pods` instruction to view pods. You must specify the namespace to identify workloads that are healthy or those thay may need attention. 
+Use the `kubectl get pods` instruction to view pods. Ensure you specify the namespace to identify workloads that are healthy or those thay may need attention. 
 
 **Examples** 
 
@@ -44,11 +45,13 @@ To list all pods, use the following command
 kubectl get pods --all-namespaces
 ```
 > [!NOTE]
-> If you omit the namespace, the `kubectl get` command defaults to the namespace that is set to the current context.
+> If you omit the namespace, the `kubectl get` command displays an error or defaults to the namespace that is set to the current context.
+
+![Namespace error](./images/kube1.png)
 
 **Expected output**
 
-The output of the `kubectl get pods` command displays the name, readiness, status, and age of the pod. 
+The output of the `kubectl get pods` command displays the name, readiness, current status, restart. and age amongst other fields. 
 
 > [!NOTE]
 > If no pods exist in the namespace, you will see an error message indicating no namespaces were found.
