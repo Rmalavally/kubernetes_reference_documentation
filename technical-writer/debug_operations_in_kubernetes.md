@@ -82,6 +82,7 @@ See 'kubectl get --help' for usage.
 ```
 
 **Useful links**
+
 * For a comprehensive list of `kubectl get commands`, refer to [kubectl_get](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_get/)
 
 * For detailed documentation on Pods, refer to [Pods](https://kubernetes.io/docs/concepts/workloads/pods/)
@@ -97,7 +98,7 @@ The command consists of the following syntax,
 * `-f`: optional flag "follow" - for streaming logs live.
 * `-p`: optional flag "previous" - displays logs from a previous instance of the container.
 * `(POD | TYPE/NAME)`: is required, you must provide either a pod name or a specific resource.
-* `[-c CONTAINER]`: optional if the the pod has only one container.
+* `[-c CONTAINER]`: optional, if the the pod has only one container.
 
 **Example**
 ```bash
@@ -123,24 +124,57 @@ error: error from server (NotFound): pods "coredns-5d78c9869d-abcde" not found i
 ```
 
 **Useful links**
+
 For more information about kubectl logs, refer to [kubectl logs documentation.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/)
 
 
 ### Execute a command in a container
-Use 'kubectl exec` to run the command in an active container for more information about the environment of the container for troubleshooting purposes. 
+Use `kubectl exec` to run the command in an active container for information about the environment for troubleshooting purposes. 
 
+```bash
+kubectl exec (POD | TYPE/NAME) [-c CONTAINER] [flags] -- COMMAND [args...]
+```
+The command consists of the following syntax,
+* `(POD | TYPE/NAME)`: is required, you must provide either a pod name or a specific resource.
+* `[-c CONTAINER]`: if omitted, the default or contextual container is used. 
+* `[flags]`: Use -i and -t for interactive sessions. 
+* `-- `: you must use two dashes (--) to separate your command's flags/arguments.
+* `COMMAND [args...]`: required, it is the command to execute inside the container.
 
+**Example**
+
+```bash
+ kubectl exec coredns-5f68d5bd7f-cl5xn --namespace kube-system -- /coredns -version
+```
+
+**Expected output**
+```bash
+root@controlplane:~$ kubectl exec coredns-5f68d5bd7f-cl5xn --namespace kube-system -- /coredns -version
+CoreDNS-1.13.1
+linux/amd64, go1.25.2, 1db4568
+```
+> [!NOTE]
+> Running the following command resulted in an error:
+
+```bash
+kubectl exec etcd-controlplane --namespace kube-system -- date
+```
+
+```bash
+root@controlplane:~$ kubectl exec etcd-controlplane --namespace kube-system -- date
+error: Internal error occurred: Internal error occurred: error executing command in container: failed to exec in container: failed to start exec "7519be462de5c3c32b2f168c35bc6bcb1d5a979a98742789d43767499904ef2d": OCI runtime exec failed: exec failed: unable to start container process: exec: "date": executable file not found in $PATH
+root@controlplane:~$ 
+```
+
+**Useful links**
+* For more details about using `kubectl exec`, refer to [kubectl exec.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_exec/)
 
 # References
-* For more detailed information about installing and using `kubectl`, refer to the [`kubectl`documentation](https://kubernetes.io/docs/reference/kubectl/).
+* [`kubectl`documentation](https://kubernetes.io/docs/reference/kubectl/).
 * [Kubernetes Glossary](https://kubernetes.io/docs/reference/glossary/?fundamental=true)
 * [kubectl_get](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_get/)
 
 
 
-
-
-# Feedback
-Was this page helpful? 
 
 
