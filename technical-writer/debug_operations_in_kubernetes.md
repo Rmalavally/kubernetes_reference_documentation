@@ -32,8 +32,6 @@ For a detailed list of Kubernetes terms and definitions, refer to the [Kubernete
 ### View Pod Status
 Use the `kubectl get pods` instruction to view pods. Ensure you specify the namespace to identify workloads that are healthy or those thay may need attention. 
 
-**Examples** 
-
 To list pods in a specific namespace, use 
 
 ```bash
@@ -44,14 +42,32 @@ To list all pods, use the following command
 ```bash
 kubectl get pods --all-namespaces
 ```
-> [!NOTE]
-> If you omit the namespace, the `kubectl get` command displays an error or defaults to the namespace that is set to the current context.
 
-![Namespace error](./images/kube1.png)
+**Example**
+```bash
+kubectl get pods --namespace kube-system
+```
 
 **Expected output**
 
+```bash
+root@controlplane:~$ kubectl get pods --namespace kube-system
+NAME                                   READY   STATUS    RESTARTS      AGE
+cilium-7l688                           1/1     Running   1 (65m ago)   22d
+cilium-envoy-tc5rr                     1/1     Running   1 (65m ago)   22d
+cilium-operator-768c98966f-9n259       1/1     Running   2 (65m ago)   22d
+coredns-5f68d5bd7f-cl5xn               1/1     Running   1 (65m ago)   22d
+coredns-5f68d5bd7f-qrs4d               1/1     Running   1 (65m ago)   22d
+etcd-controlplane                      1/1     Running   1 (65m ago)   22d
+kube-apiserver-controlplane            1/1     Running   1 (65m ago)   22d
+kube-controller-manager-controlplane   1/1     Running   1 (65m ago)   22d
+kube-scheduler-controlplane            1/1     Running   1 (65m ago)   22d
+```
+
 The output of the `kubectl get pods` command displays the name, readiness, current status, restart. and age amongst other fields. 
+
+> [!NOTE]
+> If you omit the namespace, the `kubectl get` command displays an error or defaults to the namespace that is set to the current context.
 
 > [!NOTE]
 > If no pods exist in the namespace, you will see an error message indicating no namespaces were found.
@@ -61,10 +77,44 @@ The output of the `kubectl get pods` command displays the name, readiness, curre
 
 * For detailed documentation on Pods, refer to [Pods](https://kubernetes.io/docs/concepts/workloads/pods/)
 
-### 
+### Review Container Logs
+Use the `kubectl logs` command to print the logs for a container in a pod. If a pod has only one container, the container name is optional. 
+
+```bash
+kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER]
+```
+The command consists of the following syntax,
+
+* `-f`: optional flag "follow" - for streaming logs live.
+* `-p`: optional flag "previous" - displays logs from a previous instance of the container.
+* `(POD | TYPE/NAME)`: is required, you must provide either a pod name or a specific resource.
+* `[-c CONTAINER]`: optional if the the pod has only one container.
+
+**Example**
+```bash
+kubectl logs coredns-5d78c9869d-abcde --namespace kube-system
+```
+
+**Expected output**
+```bash
+$ kubectl logs coredns-5f68d5bd7f-cl5xn --namespace kube-system
+maxprocs: Leaving GOMAXPROCS=1: CPU quota undefined
+.:53
+[INFO] plugin/reload: Running configuration SHA512 = 1b226df79860026c6a52e67daa10d7f0d57ec5b023288ec00c5e05f93523c894564e15b91770d3a07ae1cfbe861d15b37d4a0027e69c546ab112970993a3b03b
+CoreDNS-1.13.1
+linux/amd64, go1.25.2, 1db4568
+```
+
+**Useful links**
+For more information about kubectl logs, refer to [kubectl logs documentation.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/)
 
 
-References
+### Execute a command in a container
+Use 'kubectl exec` to run the command in an active container for more information about the environment of the container for troubleshooting purposes. 
+
+
+
+# References
 * For more detailed information about installing and using `kubectl`, refer to the [`kubectl`documentation](https://kubernetes.io/docs/reference/kubectl/).
 * [Kubernetes Glossary](https://kubernetes.io/docs/reference/glossary/?fundamental=true)
 * [kubectl_get](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_get/)
