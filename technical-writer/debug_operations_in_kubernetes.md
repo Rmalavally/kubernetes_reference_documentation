@@ -83,9 +83,9 @@ See 'kubectl get --help' for usage.
 
 **Useful links**
 
-* For a comprehensive list of `kubectl get commands`, refer to [kubectl_get](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_get/)
+* For a comprehensive list of `kubectl get commands`, refer to [kubectl_get.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_get/)
 
-* For detailed documentation on Pods, refer to [Pods](https://kubernetes.io/docs/concepts/workloads/pods/)
+* For detailed documentation on Pods, refer to [Pods.](https://kubernetes.io/docs/concepts/workloads/pods/)
 
 ### Review Container Logs
 Use the `kubectl logs` command to print the logs for a container in a pod. If a pod has only one container, the container name is optional. 
@@ -129,7 +129,7 @@ For more information about kubectl logs, refer to [kubectl logs documentation.](
 
 
 ### Execute a command in a container
-Use `kubectl exec` to run the command in an active container for information about the environment for troubleshooting purposes. 
+Use `kubectl exec` to run the command in an active container for information about the environment. 
 
 ```bash
 kubectl exec (POD | TYPE/NAME) [-c CONTAINER] [flags] -- COMMAND [args...]
@@ -172,7 +172,7 @@ root@controlplane:~$
 # References
 * [`kubectl`documentation](https://kubernetes.io/docs/reference/kubectl/).
 * [Kubernetes Glossary](https://kubernetes.io/docs/reference/glossary/?fundamental=true)
-* [kubectl_get](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_get/)
+
 
 
 
