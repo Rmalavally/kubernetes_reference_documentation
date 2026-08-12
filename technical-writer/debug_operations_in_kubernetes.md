@@ -1,9 +1,14 @@
 # Overview 
 Kubernetes provides `kubectl` commands that can you help you inspect pods, review logs, and debug active containers when a workload does not perform as expected.  `kubectl' is the main command line interface (CLI) tool for running commands and managing Kubernetes clusters using the Kubernetes API server. These commands help with deploying an application, troubleshooting a problem, and generating health reports of a container. 
 
-This document is a quick reference guide for some of the commonly-used debug commands for troubleshooting Kubernetes containers.  For more detailed information about installing and using `kubectl`, refer to the [`kubectl`documentation](https://kubernetes.io/docs/reference/kubectl/). 
+## Recommended Workflow
+This document is a quick reference guide for the following commonly-used `kubectl` commands for troubleshooting Kubernetes containers. You may use these commands in the following order when debugging workloads. 
 
-
+* `kubectl get pods`: To view pod status.
+* `kubectl logs`: To retreive and review logs for a container in a pod.
+* `kubectl exec`: To execute a command in a container for more details.
+* `kubectl debug`: To clone a pod with the same environment without changing the original container.
+ 
 ## Assumptions
 * If you are new to Kubernetes, it is highly recommended that you learn about basic kubectl commands and the relationships between concepts before you proceed with troubleshooting an active container.
 
@@ -26,7 +31,7 @@ For more detailed list of Kubernetes terms and definitions, refer to the [Kubern
 ### View Pod Status
 Use the `kubectl get pods` instruction to view pods. You must specify the namespace to identify workloads that are healthy or those thay may need attention. 
 
-For example, 
+**Examples** 
 
 To list pods in a specific namespace, use 
 
@@ -39,14 +44,25 @@ To list all pods, use the following command
 kubectl get pods --all-namespaces
 ```
 > [!NOTE]
-> If you omit the namespace, the `kubectl get` command defaults to the namespace that is set to the current context. 
+> If you omit the namespace, the `kubectl get` command defaults to the namespace that is set to the current context.
 
-For a comprehensive list of `kubectl get commands`, refer to [kubectl_get](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_get/)
+**Expected output**
+
+The output of the `kubectl get pods` command displays the name, readiness, status, and age of the pod. 
+
+> [!NOTE]
+> If no pods exist in the namespace, you will see an error message indicating no namespaces were found.
+
+**Useful links**
+* For a comprehensive list of `kubectl get commands`, refer to [kubectl_get](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_get/)
+
+* For detailed documentation on Pods, refer to [Pods](https://kubernetes.io/docs/concepts/workloads/pods/)
 
 ### 
 
 
 References
+* For more detailed information about installing and using `kubectl`, refer to the [`kubectl`documentation](https://kubernetes.io/docs/reference/kubectl/).
 * [Kubernetes Glossary](https://kubernetes.io/docs/reference/glossary/?fundamental=true)
 * [kubectl_get](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_get/)
 
