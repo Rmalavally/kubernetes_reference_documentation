@@ -1,22 +1,29 @@
 # Overview 
 Kubernetes (K8s) provides `kubectl`, a main command line interface (CLI) tool for running commands and managing Kubernetes clusters using the Kubernetes API server. These commands help with deploying an application, troubleshooting a problem, and checking the status of a container. 
+
 This document is a quick reference guide for the following `kubectl` commands used in troubleshooting Kubernetes containers. 
 
-> [!NOTE]
-> It is recommended you use these commands in the following order when debugging workloads. 
+You may use the following syntax to run kubectl commands from your terminal window:
 
-* `kubectl get pods`: View pod status.
-* `kubectl logs`: Retrieve and review logs for a container in a pod.
-* `kubectl exec`: Execute a command to open an interactive session inside the container.
-* `kubectl debug`: Clone a pod with the same environment without changing the original container and use advanced debug options when a container is in a CrashLoopBackOff state. 
- 
+```bash
+kubectl [command] [TYPE] [NAME] [flags]
+```
+where command, TYPE, NAME, and flags are:
+
+* **command**: Specifies the operation that you want to perform on one or more resources, for example create, get, describe, delete.
+* **TYPE**: Specifies the resource type. Resource types are case-insensitive and you can specify the singular, plural, or abbreviated forms.
+* **NAME**: Specifies the name of the resource. Names are case-sensitive. If the name is omitted, details for all resources are displayed, for example `kubectl get pods`.
+* **flags**: Specifies optional flags. For example, you can use the -s or --server flags to specify the address and port of the Kubernetes API server.
+
+>[!CAUTION]
+Flags that you specify from the command line override default values and any corresponding environment variables.
+
+For more information, refer to [kubectl documentation.](https://kubernetes.io/docs/reference/kubectl/) 
+
 ## Assumptions
 * If you are new to Kubernetes, it is highly recommended that you learn about basic kubectl commands and the relationships between concepts before you proceed with troubleshooting an active container.
 
 * As an experienced user of Kubernetes, it is assumed you have a valid context to the desired `kubectl` command and permissions to view resources in the namespace you want to inspect. It is also assumed that you have access to the cluster where the workload runs. 
-
-> [!NOTE]
-> Confirm you have the correct namespace before you troubleshoot.
 
 ## Commonly-used `kubectl` commands
 This section provides a list of commonly-used `kubectl` instructions that enable new and experienced users to perform basic tasks like viewing pod status in a namespace, review container logs, inspect the container environment, and the option to use advanced debug tools. 
@@ -28,6 +35,17 @@ Before you dive into the commands, it is important to understand the three found
 * **Node**: A node is a physical or a virtual machine in a cluster that runs workloads.
 
 For a detailed list of Kubernetes terms and definitions, refer to the [Kubernetes Glossary](https://kubernetes.io/docs/reference/glossary/?fundamental=true)
+
+> [!NOTE]
+> It is recommended you use these commands in the following order when debugging workloads. 
+
+* `kubectl get pods`: View pod status.
+* `kubectl logs`: Retrieve and review logs for a container in a pod.
+* `kubectl exec`: Execute a command to open an interactive session inside the container.
+* `kubectl debug`: Clone a pod with the same environment without changing the original container and use advanced debug options when a container is in a CrashLoopBackOff state. 
+ 
+> [!NOTE]
+> Confirm you have the correct namespace before you troubleshoot.
 
 ### View Pod Status
 Use the `kubectl get pods` instruction to view pods. Ensure you specify the namespace to identify workloads that are healthy or those thay may need attention. 
