@@ -170,7 +170,7 @@ root@controlplane:~$
 * For more details about using `kubectl exec`, refer to [kubectl exec.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_exec/)
 
 # References
-* [`kubectl`documentation](https://kubernetes.io/docs/reference/kubectl/).
+* [`kubectl` documentation](https://kubernetes.io/docs/reference/kubectl/)
 * [Kubernetes Glossary](https://kubernetes.io/docs/reference/glossary/?fundamental=true)
 
 
