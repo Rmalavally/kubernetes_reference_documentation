@@ -64,13 +64,22 @@ kube-controller-manager-controlplane   1/1     Running   1 (65m ago)   22d
 kube-scheduler-controlplane            1/1     Running   1 (65m ago)   22d
 ```
 
-The output of the `kubectl get pods` command displays the name, readiness, current status, restart. and age amongst other fields. 
+The output of the `kubectl get pods` command displays the name, readiness, current status, restarts. and age amongst other fields. 
 
 > [!NOTE]
-> If you omit the namespace, the `kubectl get` command displays an error or defaults to the namespace that is set to the current context.
+> If you omit the namespace, the `kubectl get` command defaults to the namespace that is set to the current context.
 
 > [!NOTE]
-> If no pods exist in the namespace, you will see an error message indicating no namespaces were found.
+> If no pods exist in the namespace, you will see a message indicating no resources were found in the specific namespace.
+
+> [!NOTE]
+> If the `--namespace` is missing a value, the following CLI usage error displays:
+
+```bash
+root@controlplane:~$ kubectl get pods --namespace
+error: flag needs an argument: --namespace
+See 'kubectl get --help' for usage.
+```
 
 **Useful links**
 * For a comprehensive list of `kubectl get commands`, refer to [kubectl_get](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_get/)
@@ -92,7 +101,7 @@ The command consists of the following syntax,
 
 **Example**
 ```bash
-kubectl logs coredns-5d78c9869d-abcde --namespace kube-system
+kubectl logs coredns-5f68d5bd7f-cl5xn --namespace kube-system
 ```
 
 **Expected output**
@@ -103,6 +112,14 @@ maxprocs: Leaving GOMAXPROCS=1: CPU quota undefined
 [INFO] plugin/reload: Running configuration SHA512 = 1b226df79860026c6a52e67daa10d7f0d57ec5b023288ec00c5e05f93523c894564e15b91770d3a07ae1cfbe861d15b37d4a0027e69c546ab112970993a3b03b
 CoreDNS-1.13.1
 linux/amd64, go1.25.2, 1db4568
+```
+
+> [!NOTE]
+> If the pod does not exist, the `kubectl logs` command displays a NotFound error.
+
+```bash
+root@controlplane:~$ kubectl logs coredns-5d78c9869d-abcde --namespace kube-system
+error: error from server (NotFound): pods "coredns-5d78c9869d-abcde" not found in namespace "kube-system"
 ```
 
 **Useful links**
