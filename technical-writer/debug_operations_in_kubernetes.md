@@ -1,5 +1,5 @@
 # Overview 
-Kubernetes (K8s) provides `kubectl`, the main command-line interface (CLI) tool to run commands and manage Kubernetes clusters using the Kubernetes API server. You use these commands to deploy applications, troubleshoot problems, and check the status of containers. 
+Kubernetes (K8s) provides `kubectl`, the main Command-Line Interface (CLI) tool to run commands and manage Kubernetes clusters using the Kubernetes API server. You use these commands to deploy applications, troubleshoot problems, and check the status of containers. 
 
 This document is a quick reference guide for `kubectl` commands used in troubleshooting Kubernetes containers. 
 
@@ -8,9 +8,9 @@ This document is a quick reference guide for `kubectl` commands used in troubles
 
 * If you are an experienced user of Kubernetes, we assume you have a valid context, permissions to view resources in the namespace you want to inspect, and access to the cluster where the workload runs.
 
-## Running `kubectl`commands
+## Run `kubectl`commands
 
-Use the following syntax to run `kubectl` commands from your terminal:
+Use the following options to run `kubectl` commands from your terminal:
 
 ```bash
 kubectl [command] [TYPE] [NAME] [flags]
@@ -49,7 +49,7 @@ For a detailed list of Kubernetes terms and definitions, refer to the [Kubernete
 > [!NOTE]
 > Confirm you have the correct namespace before you troubleshoot.
 
-### Viewing Pod Status
+### View Pod Status
 Use the `kubectl get pods` command to view pods in a namespace. Ensure you specify the namespace to identify workloads that are healthy or those that may need attention. 
 
 To list pods in a specific namespace, use 
@@ -107,7 +107,7 @@ See 'kubectl get --help' for usage.
 
 * For detailed documentation on Pods, refer to [Pods.](https://kubernetes.io/docs/concepts/workloads/pods/)
 
-### Reviewing Container Logs
+### Review Container Logs
 Use the `kubectl logs` command to print logs for a container in a pod. If a pod has only one container, the container name is optional. 
 
 ```bash
@@ -148,8 +148,8 @@ error: error from server (NotFound): pods "coredns-5d78c9869d-abcde" not found i
 For more information about kubectl logs, refer to [kubectl logs documentation.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/)
 
 
-### Executing a command in a container
-Use `kubectl exec` to run a command in an active container for information about the environment. 
+### Execute a command in a container
+Use `kubectl exec` to issue a command in an active container for information about the environment. 
 
 ```bash
 kubectl exec (POD | TYPE/NAME) [-c CONTAINER] [flags] -- COMMAND [args...]
@@ -175,7 +175,7 @@ CoreDNS-1.13.1
 linux/amd64, go1.25.2, 1db4568
 ```
 > [!NOTE]
-> Running the following command resulted in an error:
+> Running the following command results in an error:
 
 ```bash
 kubectl exec etcd-controlplane --namespace kube-system -- date
@@ -190,8 +190,8 @@ root@controlplane:~$
 **Useful links**
 * For more details about using `kubectl exec`, refer to [kubectl exec.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_exec/)
 
-### Using advanced debug options
-The `kubectl debug` command provides additional ways to troubleshoot workloads and nodes using interactive sessions. This command automates common debugging tasks based on the resource type and name. 
+### Use advanced debug options
+The `kubectl debug` command provides several options to troubleshoot workloads and nodes using interactive sessions. This command automates common debugging tasks based on the resource type and name. 
 
 >[!NOTE]
 >`kubectl` treats the resource as a pod if you do not specify a resource type.
@@ -207,13 +207,13 @@ For workloads, you can create a copy of the existing pod with certain attributes
 **Example**
 
 ```bash
-root@controlplane:~$ kubectl debug coredns-5f68d5bd7f-cl5xn -it --image=busybox
+kubectl debug coredns-5f68d5bd7f-cl5xn --namespace kube-system --image=busybox --profile=general -it
 ```
 
 **Expected output**
 
 ```bash
-root@controlplane:~$ kubectl debug coredns-5f68d5bd7f-cl5xn -n kube-system -it --image=busybox --profile=general
+root@controlplane:~$ kubectl debug coredns-5f68d5bd7f-cl5xn --namespace kube-system --image=busybox --profile=general -it
 Defaulting debug container name to debugger-t75k6.
 All commands and output from this session will be recorded in container logs, including credentials and sensitive information passed through the command prompt.
 If you don't see a command prompt, try pressing enter.
@@ -222,7 +222,7 @@ If you don't see a command prompt, try pressing enter.
 In this example, `kubectl debug` creates a new container named `debugger-t75k6` that you can now use for troubleshooting. Use the cloned debug container for debugging without changing the original container. 
 
 **Useful links**
-Refer to [kubectl debug](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_debug/) for more information about advanced debugging options using `kubectl`. 
+Refer to [kubectl debug.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_debug/) for more information about advanced debugging options using `kubectl`. 
 
 # References
 * [`kubectl` documentation](https://kubernetes.io/docs/reference/kubectl/)
