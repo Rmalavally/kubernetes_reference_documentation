@@ -1,12 +1,12 @@
 # Overview 
-Kubernetes (K8s) provides `kubectl`, a main command line interface (CLI) tool for running commands and managing Kubernetes clusters using the Kubernetes API server. These commands help with deploying an application, troubleshooting a problem, and checking the status of a container. 
+Kubernetes (K8s) provides `kubectl`, the main command-line interface (CLI) tool to run commands and manage Kubernetes clusters using the Kubernetes API server. You use these commands to deploy applications, troubleshoot problems, and check the status of containers. 
 
 This document is a quick reference guide for `kubectl` commands used in troubleshooting Kubernetes containers. 
 
 ## Assumptions
-* If you are new to Kubernetes, it is highly recommended that you learn about basic kubectl commands and the relationships between concepts before you proceed with troubleshooting an active container.
+* If you are new to Kubernetes, we recommend that you learn basic kubectl commands and relationships between concepts before you troubleshoot an active container.
 
-* As an experienced user of Kubernetes, it is assumed you have a valid context to the desired `kubectl` command and permissions to view resources in the namespace you want to inspect. It is also assumed that you have access to the cluster where the workload runs.
+* If you are an experienced user of Kubernetes, we assume you have a valid context, permissions to view resources in the namespace you want to inspect, and access to the cluster where the workload runs.
 
 ## Running `kubectl`commands
 
@@ -190,7 +190,7 @@ root@controlplane:~$
 * For more details about using `kubectl exec`, refer to [kubectl exec.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_exec/)
 
 ### Using advanced debug options
-The `kubectl debug` command provides additional ways to troubleshoot workdloads and nodes using interactive sessions. This command automates common debugging tasks based on the resource type and name. 
+The `kubectl debug` command provides additional ways to troubleshoot workloads and nodes using interactive sessions. This command automates common debugging tasks based on the resource type and name. 
 
 >[!NOTE]
 >`kubectl` treats the resource as a pod if you do not specify a resource type.
