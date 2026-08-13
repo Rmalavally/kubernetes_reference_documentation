@@ -30,7 +30,7 @@ For more information, refer to [kubectl documentation.](https://kubernetes.io/do
 ## Commonly-used `kubectl` commands
 This section provides a list of commonly-used `kubectl` instructions that enable new and experienced users to perform basic tasks like viewing pod status in a namespace, reviewing container logs, inspecting the container environment, and using advanced debug tools. 
 
-Before you dive into the commands, it is important to understand the three foundational concepts in Kubernetes:
+Before you use the commands, ensure you understand the following three foundational concepts in Kubernetes:
 
 * **Pod**: A pod is the smallest Kubernetes object and represents a set of running containers on your cluster.
 * **Namespace**: An abstraction used by Kubernetes to support isolation of groups of API resources within a single cluster.
@@ -39,7 +39,7 @@ Before you dive into the commands, it is important to understand the three found
 For a detailed list of Kubernetes terms and definitions, refer to the [Kubernetes Glossary](https://kubernetes.io/docs/reference/glossary/?fundamental=true)
 
 > [!NOTE]
-> It is recommended you use these commands in the following order when debugging workloads. 
+> We recommend that you use these commands in the following order when debugging workloads. 
 
 * `kubectl get pods`: View pod status.
 * `kubectl logs`: Retrieve and review logs for a container in a pod.
@@ -50,7 +50,7 @@ For a detailed list of Kubernetes terms and definitions, refer to the [Kubernete
 > Confirm you have the correct namespace before you troubleshoot.
 
 ### Viewing Pod Status
-Use the `kubectl get pods` instruction to view pods. Ensure you specify the namespace to identify workloads that are healthy or those thay may need attention. 
+Use the `kubectl get pods` command to view pods in a namespace. Ensure you specify the namespace to identify workloads that are healthy or those that may need attention. 
 
 To list pods in a specific namespace, use 
 
@@ -84,7 +84,7 @@ kube-controller-manager-controlplane   1/1     Running   1 (65m ago)   22d
 kube-scheduler-controlplane            1/1     Running   1 (65m ago)   22d
 ```
 
-The output of the `kubectl get pods` command displays the name, readiness, current status, restarts. and age amongst other fields. 
+The output of the `kubectl get pods` command displays the name, readiness, current status, restarts. and age among other fields. 
 
 > [!NOTE]
 > If you omit the namespace, the `kubectl get` command defaults to the namespace that is set to the current context.
@@ -108,7 +108,7 @@ See 'kubectl get --help' for usage.
 * For detailed documentation on Pods, refer to [Pods.](https://kubernetes.io/docs/concepts/workloads/pods/)
 
 ### Reviewing Container Logs
-Use the `kubectl logs` command to print the logs for a container in a pod. If a pod has only one container, the container name is optional. 
+Use the `kubectl logs` command to print logs for a container in a pod. If a pod has only one container, the container name is optional. 
 
 ```bash
 kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER]
@@ -149,12 +149,13 @@ For more information about kubectl logs, refer to [kubectl logs documentation.](
 
 
 ### Executing a command in a container
-Use `kubectl exec` to run the command in an active container for information about the environment. 
+Use `kubectl exec` to run a command in an active container for information about the environment. 
 
 ```bash
 kubectl exec (POD | TYPE/NAME) [-c CONTAINER] [flags] -- COMMAND [args...]
 ```
-The command consists of the following syntax,
+The command consists of the following options:
+
 * `(POD | TYPE/NAME)`: is required, you must provide either a pod name or a specific resource.
 * `[-c CONTAINER]`: if omitted, the default or contextual container is used. 
 * `[flags]`: Use -i and -t for interactive sessions. 
@@ -218,7 +219,7 @@ All commands and output from this session will be recorded in container logs, in
 If you don't see a command prompt, try pressing enter.
 ```
 
-In this example, `kubectl debug` created a new container named `debugger-t75k6` that you can now use for troubleshooting. Use the cloned debug container for debugging without changing the original container. 
+In this example, `kubectl debug` creates a new container named `debugger-t75k6` that you can now use for troubleshooting. Use the cloned debug container for debugging without changing the original container. 
 
 **Useful links**
 Refer to [kubectl debug](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_debug/) for more information about advanced debugging options using `kubectl`. 
