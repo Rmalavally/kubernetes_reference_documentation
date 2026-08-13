@@ -222,7 +222,7 @@ If you don't see a command prompt, try pressing enter.
 In this example, `kubectl debug` creates a new container named `debugger-t75k6` that you can now use for troubleshooting. Use the cloned debug container for debugging without changing the original container. 
 
 **Useful links**
-Refer to [kubectl debug](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_debug/) for more information about advanced debugging options using `kubectl`. 
+Refer to [kubectl debug.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_debug/) for more information about advanced debugging options using `kubectl`. 
 
 # References
 * [`kubectl` documentation](https://kubernetes.io/docs/reference/kubectl/)
