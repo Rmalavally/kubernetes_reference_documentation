@@ -10,20 +10,20 @@ This document is a quick reference guide for `kubectl` commands used in troubles
 
 ## Running `kubectl`commands
 
-You may use the following syntax to run kubectl commands from your terminal window:
+Use the following syntax to run `kubectl` commands from your terminal:
 
 ```bash
 kubectl [command] [TYPE] [NAME] [flags]
 ```
-where command, TYPE, NAME, and flags are:
+In this syntax:
 
-* **command**: Specifies the operation that you want to perform on one or more resources, for example create, get, describe, delete.
-* **TYPE**: Specifies the resource type. Resource types are case-insensitive and you can specify the singular, plural, or abbreviated forms.
-* **NAME**: Specifies the name of the resource. Names are case-sensitive. If the name is omitted, details for all resources are displayed, for example `kubectl get pods`.
-* **flags**: Specifies optional flags. For example, you can use the -s or --server flags to specify the address and port of the Kubernetes API server.
+* **command**: The operation that you want to perform on one or more resources, for example `create`, `get`, `describe`, `delete`.
+* **TYPE**: The resource type. Resource types are case-insensitive and you can specify the singular, plural, or abbreviated forms.
+* **NAME**: The name of the resource. Names are case-sensitive. If the name is omitted, details for all resources are displayed, for example `kubectl get pods`.
+* **flags**: Optional flags. For example, you use the `-s` or `--server` flags to specify the address and port of the Kubernetes API server.
 
 >[!CAUTION]
-Flags that you specify from the command line override default values and any corresponding environment variables.
+Flags that you specify on the command line override default values and any corresponding environment variables.
 
 For more information, refer to [kubectl documentation.](https://kubernetes.io/docs/reference/kubectl/) 
 
