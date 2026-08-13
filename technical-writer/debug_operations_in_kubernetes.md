@@ -8,26 +8,26 @@ This document is a quick reference guide for `kubectl` commands used in troubles
 
 * If you are an experienced user of Kubernetes, we assume you have a valid context, permissions to view resources in the namespace you want to inspect, and access to the cluster where the workload runs.
 
-## Run `kubectl`Commands
+## Issue `kubectl`Commands
 
-Use the following options to run `kubectl` commands from your terminal:
+Use the following options to issue `kubectl` commands from your terminal:
 
 ```bash
 kubectl [command] [TYPE] [NAME] [flags]
 ```
-In this syntax:
+In this command:
 
 * **command**: The operation that you want to perform on one or more resources, for example `create`, `get`, `describe`, `delete`.
 * **TYPE**: The resource type. Resource types are case-insensitive and you can specify the singular, plural, or abbreviated forms.
 * **NAME**: The name of the resource. Names are case-sensitive. If the name is omitted, details for all resources are displayed, for example `kubectl get pods`.
 * **flags**: Optional flags. For example, you use the `-s` or `--server` flags to specify the address and port of the Kubernetes API server.
 
->[!CAUTION]
-Flags that you specify on the command line override default values and any corresponding environment variables.
+> [!CAUTION]
+> Flags that you specify on the command line override default values and any corresponding environment variables.
 
 For more information, refer to [kubectl documentation.](https://kubernetes.io/docs/reference/kubectl/) 
 
-## Commonly-used `kubectl` Commands
+## Commonly-Used `kubectl` Commands
 This section provides a list of commonly-used `kubectl` commands that enable new and experienced users to perform basic tasks like viewing pod status in a namespace, reviewing container logs, inspecting the container environment, and using advanced debug tools. 
 
 Before you use the commands, ensure you understand the following three foundational concepts in Kubernetes:
@@ -175,7 +175,7 @@ CoreDNS-1.13.1
 linux/amd64, go1.25.2, 1db4568
 ```
 > [!NOTE]
-> Running the following command results in an error:
+> Issuing the following command results in an error:
 
 ```bash
 kubectl exec etcd-controlplane --namespace kube-system -- date
@@ -222,7 +222,7 @@ If you don't see a command prompt, try pressing enter.
 In this example, `kubectl debug` creates a new container named `debugger-t75k6` that you can now use for troubleshooting. Use the cloned debug container for debugging without changing the original container. 
 
 **Useful links**
-Refer to [kubectl debug.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_debug/) for more information about advanced debugging options using `kubectl`. 
+Refer to [kubectl debug](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_debug/) for more information about advanced debugging options using `kubectl`. 
 
 # References
 * [`kubectl` documentation](https://kubernetes.io/docs/reference/kubectl/)
