@@ -1,19 +1,236 @@
-# Debug Operations in Kubernetes
+# Overview 
+Kubernetes (K8s) provides `kubectl`, the main Command-Line Interface (CLI) tool to run commands and manage Kubernetes clusters using the Kubernetes API server. You use these commands to deploy applications, troubleshoot problems, and check the status of containers. 
 
-Kubernetes contains several commands, sometimes we can use these commands to do things. A good command to know is kubectl get pods which is used to get a list of all pods that are available and what their status is. Just rememember that when you use this command tat you may have to specify the `namespace`.
+This document is a quick reference guide for `kubectl` commands used in troubleshooting Kubernetes containers. 
 
-```shell
-kubectl get pods --namespace 
+## Assumptions
+* If you are new to Kubernetes, we recommend that you learn basic kubectl commands and relationships between concepts before you troubleshoot an active container.
+
+* If you are an experienced user of Kubernetes, we assume you have a valid context, permissions to view resources in the namespace you want to inspect, and access to the cluster where the workload runs.
+
+## Issue `kubectl` Commands
+
+Use the following options to issue `kubectl` commands from your terminal:
+
+```bash
+kubectl [command] [TYPE] [NAME] [flags]
+```
+In this command:
+
+* **command**: The operation that you want to perform on one or more resources, for example `create`, `get`, `describe`, `delete`.
+* **TYPE**: The resource type. Resource types are case-insensitive and you can specify the singular, plural, or abbreviated forms.
+* **NAME**: The name of the resource. Names are case-sensitive. If the name is omitted, details for all resources are displayed, for example `kubectl get pods`.
+* **flags**: Optional flags. For example, you use the `-s` or `--server` flags to specify the address and port of the Kubernetes API server.
+
+> [!CAUTION]
+> Flags that you specify on the command line override default values and any corresponding environment variables.
+
+For more information, refer to [kubectl documentation.](https://kubernetes.io/docs/reference/kubectl/) 
+
+## Commonly-Used `kubectl` Commands
+This section provides a list of commonly-used `kubectl` commands that enable new and experienced users to perform basic tasks like viewing pod status in a namespace, reviewing container logs, inspecting the container environment, and using advanced debug tools. 
+
+Before you use the commands, ensure you understand the following three foundational concepts in Kubernetes:
+
+* **Pod**: A pod is the smallest Kubernetes object and represents a set of running containers on your cluster.
+* **Namespace**: An abstraction used by Kubernetes to support isolation of groups of API resources within a single cluster.
+* **Node**: A node is a physical or a virtual machine in a cluster that runs workloads.
+
+For a detailed list of Kubernetes terms and definitions, refer to the [Kubernetes Glossary](https://kubernetes.io/docs/reference/glossary/?fundamental=true)
+
+> [!NOTE]
+> We recommend that you use these commands in the following order when debugging workloads. 
+
+* `kubectl get pods`: View pod status.
+* `kubectl logs`: Retrieve and review logs for a container in a pod.
+* `kubectl exec`: Execute a command to open an interactive session inside the container.
+* `kubectl debug`: Clone a pod with the same environment without changing the original container and use advanced debug options when a container is in a CrashLoopBackOff state. 
+ 
+> [!NOTE]
+> Confirm you have the correct namespace before you troubleshoot.
+
+### View Pod Status
+Use the `kubectl get pods` command to view pods in a namespace. Ensure you specify the namespace to identify workloads that are healthy or those that may need attention. 
+
+To list pods in a specific namespace, use 
+
+```bash
+kubectl get pods --namespace <namespace-name>
 ```
 
-Speaking of commands, kubectl is the CLI that is used to interact with k8s. The kubectl cli commmunicates with the kubernettes API server.  Another command that is helpful is the kubectl logs command. In Azure, kubernetess is available, just like other cloud providers. This command is used to retrive the logs of a specific pod - do use this when you have to review logs or need to debug a container. Another we will dicuss is the `kubectl exec` command. A command that we can use to debug a container from the inside or to explore the the enviroment of the container itself.  I recommend when debugging you start with kubectl get pods, then `kubectl logs` and lastly we can use `kubectl exec` to explore the inside of the container and review other log files or configurations. 
+To list all pods, use the following command
+```bash
+kubectl get pods --all-namespaces
+```
 
-**Note:** The command `kubectl debug` is another option to considering when debugging a container. This command can be used to create a clone of a pod that does not terminate if an error is experienced inside the container. 
+**Example**
+```bash
+kubectl get pods --namespace kube-system
+```
+
+**Expected output**
+
+```bash
+root@controlplane:~$ kubectl get pods --namespace kube-system
+NAME                                   READY   STATUS    RESTARTS      AGE
+cilium-7l688                           1/1     Running   1 (65m ago)   22d
+cilium-envoy-tc5rr                     1/1     Running   1 (65m ago)   22d
+cilium-operator-768c98966f-9n259       1/1     Running   2 (65m ago)   22d
+coredns-5f68d5bd7f-cl5xn               1/1     Running   1 (65m ago)   22d
+coredns-5f68d5bd7f-qrs4d               1/1     Running   1 (65m ago)   22d
+etcd-controlplane                      1/1     Running   1 (65m ago)   22d
+kube-apiserver-controlplane            1/1     Running   1 (65m ago)   22d
+kube-controller-manager-controlplane   1/1     Running   1 (65m ago)   22d
+kube-scheduler-controlplane            1/1     Running   1 (65m ago)   22d
+```
+
+The output of the `kubectl get pods` command displays the name, readiness, current status, restarts and age among other fields. 
+
+> [!NOTE]
+> If you omit the namespace, the `kubectl get` command defaults to the namespace that is set to the current context.
+
+> [!NOTE]
+> If no pods exist in the namespace, you will see a message indicating no resources were found in the specific namespace.
+
+> [!NOTE]
+> If the `--namespace` is missing a value, the following CLI usage error displays:
+
+```bash
+root@controlplane:~$ kubectl get pods --namespace
+error: flag needs an argument: --namespace
+See 'kubectl get --help' for usage.
+```
+
+**Useful links**
+
+* For a comprehensive list of `kubectl get commands`, refer to [kubectl_get.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_get/)
+
+* For detailed documentation on Pods, refer to [Pods.](https://kubernetes.io/docs/concepts/workloads/pods/)
+
+### Review Container Logs
+Use the `kubectl logs` command to print logs for a container in a pod. If a pod has only one container, the container name is optional. 
+
+```bash
+kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER]
+```
+The command consists of the following syntax.
+
+* `-f`: optional flag "follow" - for streaming logs live.
+* `-p`: optional flag "previous" - displays logs from a previous instance of the container.
+* `(POD | TYPE/NAME)`: is required, you must provide either a pod name or a specific resource.
+* `[-c CONTAINER]`: optional, if the the pod has only one container.
+
+**Example**
+```bash
+kubectl logs coredns-5f68d5bd7f-cl5xn --namespace kube-system
+```
+
+**Expected output**
+```bash
+$ kubectl logs coredns-5f68d5bd7f-cl5xn --namespace kube-system
+maxprocs: Leaving GOMAXPROCS=1: CPU quota undefined
+.:53
+[INFO] plugin/reload: Running configuration SHA512 = 1b226df79860026c6a52e67daa10d7f0d57ec5b023288ec00c5e05f93523c894564e15b91770d3a07ae1cfbe861d15b37d4a0027e69c546ab112970993a3b03b
+CoreDNS-1.13.1
+linux/amd64, go1.25.2, 1db4568
+```
+
+> [!NOTE]
+> If the pod does not exist, the `kubectl logs` command displays a NotFound error.
+
+```bash
+root@controlplane:~$ kubectl logs coredns-5d78c9869d-abcde --namespace kube-system
+error: error from server (NotFound): pods "coredns-5d78c9869d-abcde" not found in namespace "kube-system"
+```
+
+**Useful links**
+
+For more information about kubectl logs, refer to [kubectl logs documentation.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/)
 
 
+### Execute a Command in a Container
+Use `kubectl exec` to issue a command in an active container for information about the environment. 
+
+```bash
+kubectl exec (POD | TYPE/NAME) [-c CONTAINER] [flags] -- COMMAND [args...]
+```
+The command consists of the following options.
+
+* `(POD | TYPE/NAME)`: is required, you must provide either a pod name or a specific resource.
+* `[-c CONTAINER]`: if omitted, the default or contextual container is used. 
+* `[flags]`: Use -i and -t for interactive sessions. 
+* `-- `: you must use two dashes (--) to separate your command's flags/arguments.
+* `COMMAND [args...]`: required, it is the command to execute inside the container.
+
+**Example**
+
+```bash
+ kubectl exec coredns-5f68d5bd7f-cl5xn --namespace kube-system -- /coredns -version
+```
+
+**Expected output**
+```bash
+root@controlplane:~$ kubectl exec coredns-5f68d5bd7f-cl5xn --namespace kube-system -- /coredns -version
+CoreDNS-1.13.1
+linux/amd64, go1.25.2, 1db4568
+```
+> [!NOTE]
+> Issuing the following command results in an error:
+
+```bash
+kubectl exec etcd-controlplane --namespace kube-system -- date
+```
+
+```bash
+root@controlplane:~$ kubectl exec etcd-controlplane --namespace kube-system -- date
+error: Internal error occurred: Internal error occurred: error executing command in container: failed to exec in container: failed to start exec "7519be462de5c3c32b2f168c35bc6bcb1d5a979a98742789d43767499904ef2d": OCI runtime exec failed: exec failed: unable to start container process: exec: "date": executable file not found in $PATH
+root@controlplane:~$ 
+```
+
+**Useful links**
+* For more details about using `kubectl exec`, refer to [kubectl exec.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_exec/)
+
+### Use Advanced Debug Options
+The `kubectl debug` command provides several options to troubleshoot workloads and nodes using interactive sessions. This command automates common debugging tasks based on the resource type and name. 
+
+> [!NOTE]
+> `kubectl` treats the resource as a pod if you do not specify a resource type.
+
+```bash
+kubectl debug (POD | TYPE[[.VERSION].GROUP]/NAME) [ -- COMMAND [args...] ]
+```
+For workloads, you can create a copy of the existing pod with certain attributes changed. For example, you can change the image tag to a new version or add debugging utilities without restarting the pod. For nodes, you can create a new pod that runs in the node's host namespaces and access the node's filesystem. 
+
+> [!NOTE]
+> When a non-root user is configured for the entire target Pod, some capabilities granted by the debug profile may not work.
+
+**Example**
+
+```bash
+kubectl debug coredns-5f68d5bd7f-cl5xn --namespace kube-system --image=busybox --profile=general -it
+```
+
+**Expected output**
+
+```bash
+root@controlplane:~$ kubectl debug coredns-5f68d5bd7f-cl5xn --namespace kube-system --image=busybox --profile=general -it
+Defaulting debug container name to debugger-t75k6.
+All commands and output from this session will be recorded in container logs, including credentials and sensitive information passed through the command prompt.
+If you don't see a command prompt, try pressing enter.
+```
+
+In this example, `kubectl debug` creates a new container named `debugger-t75k6` that you can now use for troubleshooting. Use the cloned debug container for debugging without changing the original container. 
+
+**Useful links**
+
+For more information about advanced debugging options using `kubectl`, refer to [kubectl debug.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_debug/)
 
 # References
+* [`kubectl` documentation](https://kubernetes.io/docs/reference/kubectl/)
+* [Kubernetes Glossary](https://kubernetes.io/docs/reference/glossary/?fundamental=true)
 
-- https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-strong-getting-started-strong-
 
-- [What is Kubernetes](https://kubernetes.io/docs/concepts/overview/)
+
+
+
+
