@@ -8,7 +8,7 @@ This document is a quick reference guide for `kubectl` commands used in troubles
 
 * If you are an experienced user of Kubernetes, we assume you have a valid context, permissions to view resources in the namespace you want to inspect, and access to the cluster where the workload runs.
 
-## Run `kubectl`commands
+## Run `kubectl`Commands
 
 Use the following options to run `kubectl` commands from your terminal:
 
@@ -27,7 +27,7 @@ Flags that you specify on the command line override default values and any corre
 
 For more information, refer to [kubectl documentation.](https://kubernetes.io/docs/reference/kubectl/) 
 
-## Commonly-used `kubectl` commands
+## Commonly-used `kubectl` Commands
 This section provides a list of commonly-used `kubectl` commands that enable new and experienced users to perform basic tasks like viewing pod status in a namespace, reviewing container logs, inspecting the container environment, and using advanced debug tools. 
 
 Before you use the commands, ensure you understand the following three foundational concepts in Kubernetes:
@@ -148,7 +148,7 @@ error: error from server (NotFound): pods "coredns-5d78c9869d-abcde" not found i
 For more information about kubectl logs, refer to [kubectl logs documentation.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/)
 
 
-### Execute a command in a container
+### Execute a Command in a Container
 Use `kubectl exec` to issue a command in an active container for information about the environment. 
 
 ```bash
@@ -190,7 +190,7 @@ root@controlplane:~$
 **Useful links**
 * For more details about using `kubectl exec`, refer to [kubectl exec.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_exec/)
 
-### Use advanced debug options
+### Use Advanced Debug Options
 The `kubectl debug` command provides several options to troubleshoot workloads and nodes using interactive sessions. This command automates common debugging tasks based on the resource type and name. 
 
 >[!NOTE]
