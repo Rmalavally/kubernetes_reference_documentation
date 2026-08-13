@@ -8,7 +8,7 @@ This document is a quick reference guide for `kubectl` commands used in troubles
 
 * If you are an experienced user of Kubernetes, we assume you have a valid context, permissions to view resources in the namespace you want to inspect, and access to the cluster where the workload runs.
 
-## Issue `kubectl`Commands
+## Issue `kubectl` Commands
 
 Use the following options to issue `kubectl` commands from your terminal:
 
@@ -113,7 +113,7 @@ Use the `kubectl logs` command to print logs for a container in a pod. If a pod 
 ```bash
 kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER]
 ```
-The command consists of the following syntax,
+The command consists of the following syntax.
 
 * `-f`: optional flag "follow" - for streaming logs live.
 * `-p`: optional flag "previous" - displays logs from a previous instance of the container.
@@ -154,7 +154,7 @@ Use `kubectl exec` to issue a command in an active container for information abo
 ```bash
 kubectl exec (POD | TYPE/NAME) [-c CONTAINER] [flags] -- COMMAND [args...]
 ```
-The command consists of the following options:
+The command consists of the following options.
 
 * `(POD | TYPE/NAME)`: is required, you must provide either a pod name or a specific resource.
 * `[-c CONTAINER]`: if omitted, the default or contextual container is used. 
@@ -193,8 +193,8 @@ root@controlplane:~$
 ### Use Advanced Debug Options
 The `kubectl debug` command provides several options to troubleshoot workloads and nodes using interactive sessions. This command automates common debugging tasks based on the resource type and name. 
 
->[!NOTE]
->`kubectl` treats the resource as a pod if you do not specify a resource type.
+> [!NOTE]
+> `kubectl` treats the resource as a pod if you do not specify a resource type.
 
 ```bash
 kubectl debug (POD | TYPE[[.VERSION].GROUP]/NAME) [ -- COMMAND [args...] ]
@@ -222,7 +222,7 @@ If you don't see a command prompt, try pressing enter.
 In this example, `kubectl debug` creates a new container named `debugger-t75k6` that you can now use for troubleshooting. Use the cloned debug container for debugging without changing the original container. 
 
 **Useful links**
-Refer to [kubectl debug.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_debug/) for more information about advanced debugging options using `kubectl`. 
+For more information about advanced debugging options using `kubectl`, refer to [kubectl debug.](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_debug/) . 
 
 # References
 * [`kubectl` documentation](https://kubernetes.io/docs/reference/kubectl/)
