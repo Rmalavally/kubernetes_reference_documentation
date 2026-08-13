@@ -28,7 +28,7 @@ Flags that you specify on the command line override default values and any corre
 For more information, refer to [kubectl documentation.](https://kubernetes.io/docs/reference/kubectl/) 
 
 ## Commonly-used `kubectl` commands
-This section provides a list of commonly-used `kubectl` instructions that enable new and experienced users to perform basic tasks like viewing pod status in a namespace, reviewing container logs, inspecting the container environment, and using advanced debug tools. 
+This section provides a list of commonly-used `kubectl` commands that enable new and experienced users to perform basic tasks like viewing pod status in a namespace, reviewing container logs, inspecting the container environment, and using advanced debug tools. 
 
 Before you use the commands, ensure you understand the following three foundational concepts in Kubernetes:
 
@@ -84,7 +84,7 @@ kube-controller-manager-controlplane   1/1     Running   1 (65m ago)   22d
 kube-scheduler-controlplane            1/1     Running   1 (65m ago)   22d
 ```
 
-The output of the `kubectl get pods` command displays the name, readiness, current status, restarts. and age among other fields. 
+The output of the `kubectl get pods` command displays the name, readiness, current status, restarts and age among other fields. 
 
 > [!NOTE]
 > If you omit the namespace, the `kubectl get` command defaults to the namespace that is set to the current context.
