@@ -1,7 +1,14 @@
 # Overview 
 Kubernetes (K8s) provides `kubectl`, a main command line interface (CLI) tool for running commands and managing Kubernetes clusters using the Kubernetes API server. These commands help with deploying an application, troubleshooting a problem, and checking the status of a container. 
 
-This document is a quick reference guide for the following `kubectl` commands used in troubleshooting Kubernetes containers. 
+This document is a quick reference guide for `kubectl` commands used in troubleshooting Kubernetes containers. 
+
+## Assumptions
+* If you are new to Kubernetes, it is highly recommended that you learn about basic kubectl commands and the relationships between concepts before you proceed with troubleshooting an active container.
+
+* As an experienced user of Kubernetes, it is assumed you have a valid context to the desired `kubectl` command and permissions to view resources in the namespace you want to inspect. It is also assumed that you have access to the cluster where the workload runs.
+
+## Running `kubectl`commands
 
 You may use the following syntax to run kubectl commands from your terminal window:
 
@@ -20,13 +27,8 @@ Flags that you specify from the command line override default values and any cor
 
 For more information, refer to [kubectl documentation.](https://kubernetes.io/docs/reference/kubectl/) 
 
-## Assumptions
-* If you are new to Kubernetes, it is highly recommended that you learn about basic kubectl commands and the relationships between concepts before you proceed with troubleshooting an active container.
-
-* As an experienced user of Kubernetes, it is assumed you have a valid context to the desired `kubectl` command and permissions to view resources in the namespace you want to inspect. It is also assumed that you have access to the cluster where the workload runs. 
-
 ## Commonly-used `kubectl` commands
-This section provides a list of commonly-used `kubectl` instructions that enable new and experienced users to perform basic tasks like viewing pod status in a namespace, review container logs, inspect the container environment, and the option to use advanced debug tools. 
+This section provides a list of commonly-used `kubectl` instructions that enable new and experienced users to perform basic tasks like viewing pod status in a namespace, reviewing container logs, inspecting the container environment, and using advanced debug tools. 
 
 Before you dive into the commands, it is important to understand the three foundational concepts in Kubernetes:
 
