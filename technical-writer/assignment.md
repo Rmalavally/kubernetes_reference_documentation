@@ -118,7 +118,7 @@ The command consists of the following syntax.
 * `-f`: optional flag "follow" - for streaming logs live.
 * `-p`: optional flag "previous" - displays logs from a previous instance of the container.
 * `(POD | TYPE/NAME)`: is required, you must provide either a pod name or a specific resource.
-* `[-c CONTAINER]`: optional, if the the pod has only one container.
+* `[-c CONTAINER]`: optional, if the pod has only one container.
 
 **Example**
 ```bash
